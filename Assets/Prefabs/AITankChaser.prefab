@@ -10641,6 +10641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8326b9dca06e5bc4885942c9371f51f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isAi: 1
   m_StartingHealth: 100
   m_Slider: {fileID: 11482748}
   m_FillImage: {fileID: 11404512}

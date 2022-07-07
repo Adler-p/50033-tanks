@@ -19,6 +19,18 @@ public class CameraControl : MonoBehaviour
         m_Camera = GetComponentInChildren<Camera>();
     }
 
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            transform.position += Time.deltaTime * Vector3.up * 10f;
+        }
+        else if(Input.GetKey(KeyCode.DownArrow))
+        {
+            transform.position -= Time.deltaTime * Vector3.up * 10f;
+        }
+    }
+
 
     private void FixedUpdate()
     {

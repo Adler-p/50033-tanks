@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
+    public float flashRedTime = 0.1f;
     public int m_NumRoundsToWin = 5;            
     public float m_StartDelay = 3f;             
     public float m_EndDelay = 3f;               
@@ -16,16 +18,24 @@ public class GameManager : MonoBehaviour
     public GameObject[] m_TankPrefabs;
     public TankManager[] m_Tanks;               
     public List<Transform> wayPointsForAI;
+    public GameObject hitPanel;
+    public GameObject hit;
 
     private int m_RoundNumber;                  
     private WaitForSeconds m_StartWait;         
     private WaitForSeconds m_EndWait;           
     private TankManager m_RoundWinner;          
-    private TankManager m_GameWinner;           
+    private TankManager m_GameWinner;
+
+    public GameObject panel;
 
 
     private void Start()
     {
+        panel.SetActive(false);
+
+        if (instance == null)
+            instance = this;
         m_StartWait = new WaitForSeconds(m_StartDelay);
         m_EndWait = new WaitForSeconds(m_EndDelay);
 
@@ -70,8 +80,9 @@ public class GameManager : MonoBehaviour
         yield return StartCoroutine(RoundPlaying());
         yield return StartCoroutine(RoundEnding());
 
-        if (m_GameWinner != null) SceneManager.LoadScene(0);
-        else StartCoroutine(GameLoop());
+        //if (m_GameWinner != null)   SceneManager.LoadScene(0);
+        //else StartCoroutine(GameLoop());
+        StartCoroutine(GameLoop());
     }
 
 
@@ -155,7 +166,8 @@ public class GameManager : MonoBehaviour
     private string EndMessage()
     {
         var sb = new StringBuilder();
-
+        sb.Append("You Will");
+        /*
         if (m_RoundWinner != null) sb.Append($"{m_RoundWinner.m_ColoredPlayerText} WINS THE ROUND!");
         else sb.Append("DRAW!");
 
@@ -168,7 +180,7 @@ public class GameManager : MonoBehaviour
 
         if (m_GameWinner != null)
             sb.Append($"{m_GameWinner.m_ColoredPlayerText} WINS THE GAME!");
-
+        */
         return sb.ToString();
     }
 
@@ -188,5 +200,44 @@ public class GameManager : MonoBehaviour
     private void DisableTankControl()
     {
         for (int i = 0; i < m_Tanks.Length; i++) m_Tanks[i].DisableControl();
+    }
+
+    private IEnumerator FlashingRed()
+    {
+        hitPanel.SetActive(true);
+        yield return new WaitForSeconds(flashRedTime);
+        hitPanel.SetActive(false);
+    }
+
+    public void flash()
+    {
+        StartCoroutine(FlashingRed());
+    }
+
+    private IEnumerator showHitted()
+    {
+        Vector3 lastScale = hit.transform.localScale;
+        hit.transform.localScale = new Vector3(2, 2, 2);
+        float showTime = 0.9f;
+
+        while (showTime > 0)
+        {
+            hit.SetActive(true);
+            yield return new WaitForSeconds(Time.deltaTime);
+            showTime -= Time.deltaTime;
+            hit.transform.localScale -= hit.transform.localScale / 10;
+        }
+        hit.SetActive(false);
+        hit.transform.localScale = lastScale;
+    }
+
+    public void hitToDeath()
+    {
+        StartCoroutine(showHitted());
+    }
+
+    public void fail()
+    {
+        panel.SetActive(true);
     }
 }
