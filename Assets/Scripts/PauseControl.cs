@@ -14,7 +14,9 @@ public class PauseControl : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {     
+        
+        //If the player press the p key, then the game will be paused.
         if (Input.GetKeyDown(KeyCode.P))
         {
             isPause = !isPause;

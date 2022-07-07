@@ -8,6 +8,8 @@ public class Item : MonoBehaviour
     {
         if(other.tag == "Player")
         {
+            
+            //detect collision with player.
             ItemControl.instance.getQuality(other.gameObject);
             ItemControl.instance.addItem();
             Destroy(gameObject);

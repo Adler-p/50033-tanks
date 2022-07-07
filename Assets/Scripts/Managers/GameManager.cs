@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     public GameObject panel;
 
 
+
     private void Start()
     {
         panel.SetActive(false);
@@ -44,6 +45,7 @@ public class GameManager : MonoBehaviour
 
         StartCoroutine(GameLoop());
     }
+
 
 
     private void SpawnAllTanks()
@@ -164,9 +166,9 @@ public class GameManager : MonoBehaviour
 
 
     private string EndMessage()
-    {
+    {   //show the winning panel of the game
         var sb = new StringBuilder();
-        sb.Append("You Will");
+        sb.Append("You Win!\n");
         /*
         if (m_RoundWinner != null) sb.Append($"{m_RoundWinner.m_ColoredPlayerText} WINS THE ROUND!");
         else sb.Append("DRAW!");
@@ -210,7 +212,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void flash()
-    {
+    {   // Flash red for a short time
         StartCoroutine(FlashingRed());
     }
 
@@ -237,7 +239,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void fail()
-    {
+    {   // activate fail panel
         panel.SetActive(true);
     }
 }

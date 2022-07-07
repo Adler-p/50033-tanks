@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class ShellExplosion : MonoBehaviour
 {
@@ -19,7 +19,7 @@ public class ShellExplosion : MonoBehaviour
 
 
     private void OnTriggerEnter(Collider other)
-    {
+    {   // Destroy the building
         if(other.tag == "canDestoryBuilding")
         {
             Destroy(other.gameObject);

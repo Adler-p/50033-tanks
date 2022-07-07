@@ -20,7 +20,7 @@ public class ItemControl : MonoBehaviour
     public int itemNum = 5;
 
     private void Start()
-    {
+    {   //create the first 5 items.
         instance = this;
         createItem();
     }
@@ -30,21 +30,22 @@ public class ItemControl : MonoBehaviour
 
     }
     private void createItem()
-    {
+    {   //Create item
         for(int i = 0; i < itemNum; i++)
         {
             float x = Random.Range(xLeftBoundary, xRightBoundary);
             float y = yBoundary;
             float z = Random.Range(zLeftBoundary, zRightBoundary);
             Instantiate(item, new Vector3(x, y, z), Quaternion.identity);
+            
         }
     }
 
     public void getQuality(GameObject target)
-    {
+    {   //Randomly pick an int 0,1,and 2
         int rand = Random.Range(0, 3);
         if(rand == 0)
-        {
+        {   //If the int is 0, then the guard wil be set active, the tank will also be invisible.
             GameObject obj = Instantiate(guard, target.transform.position, Quaternion.identity);
             obj.transform.parent = target.transform;
             obj.transform.localPosition = Vector3.zero;
@@ -53,14 +54,14 @@ public class ItemControl : MonoBehaviour
             StartCoroutine(invincible(target, obj));
         }
         else if(rand == 1)
-        {
-            UIPanel.GetComponent<Text>().text = "Power¡ü";
+        {   // if the int is 1, then the tank tank will have unlimited bullet.
+            UIPanel.GetComponent<Text>().text = "Powerâ†‘â†‘";
             StartCoroutine(waitTime(5f));
             StartCoroutine(fireTimeReduce(target));
         }
         else if(rand == 2)
-        {
-            UIPanel.GetComponent<Text>().text = "HP¡ü";
+        {   //if the int is 2, then the tank HP will be increased by 10.
+            UIPanel.GetComponent<Text>().text = "HPâ†‘â†‘";
             StartCoroutine(waitTime(2f));
             target.GetComponent<TankHealth>().add(10);
         }
@@ -75,7 +76,7 @@ public class ItemControl : MonoBehaviour
     }
 
     public void addItem()
-    {
+    {   // add item
         float x = Random.Range(xLeftBoundary, xRightBoundary);
         float y = yBoundary;
         float z = Random.Range(zLeftBoundary, zRightBoundary);
@@ -83,14 +84,14 @@ public class ItemControl : MonoBehaviour
     }
 
     IEnumerator invincible(GameObject target,GameObject obj)
-    {
+    {   // invincible for a short time
         target.GetComponent<TankHealth>().isinvincible = true;
         yield return new WaitForSeconds(time);
         target.GetComponent<TankHealth>().isinvincible = false;
         Destroy(obj);
     }
     IEnumerator fireTimeReduce(GameObject target)
-    {
+    {   // fire time reduce for a short time
         float lastFireTime = target.GetComponent<TankShooting>().FireTime;
         target.GetComponent<TankShooting>().FireTime = 0.1f;
         yield return new WaitForSeconds(time);
